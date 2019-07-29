@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavParams } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-create-task',
@@ -8,9 +8,13 @@ import { NavParams } from '@ionic/angular';
 })
 export class CreateTaskPage implements OnInit {
 
-  constructor() { }
+  constructor(private modalCtrl: ModalController) { }
 
   ngOnInit() {
+  }
+
+  closeModal() {
+    this.modalCtrl.dismiss();
   }
 
 }

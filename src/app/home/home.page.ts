@@ -20,15 +20,25 @@ export class HomePage {
   ngOnInit() {
     this.tasks = this.taskService.getAllTasks();
   }
-  getDayName(date: Date): string{
+  getDayName(date: Date): string {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     return days[date.getDay()];
   }
 
-  async showTaskCreator(){
+  async showTaskCreator() {
     const modal = await this.modalCtrl.create({
       component: CreateTaskPage
     });
     return await modal.present();
+  }
+
+  updateTask(id: string) {
+
+  }
+  deleteTask(id: string) {
+
+  }
+  toggleCompleted(id: string) {
+
   }
 }

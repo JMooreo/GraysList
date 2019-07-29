@@ -5,7 +5,6 @@ import { Task } from '../models/task-model';
   providedIn: 'root'
 })
 export class TasksService {
-
   private tasks: Task[] = [
     {
       id: 't1',
@@ -16,16 +15,39 @@ export class TasksService {
     },
     {
       id: 't2',
-      title: 'Feed Scar',
+      title: 'a very long name that could just keep going and going',
       nextRefresh: new Date('2019-07-18'),
       completed: true,
       completedBy: 'Joe'
     }
   ];
 
-  constructor() { }
+  constructor() {}
 
   getAllTasks() {
     return [...this.tasks];
+  }
+
+  toggleCompleted(taskId: string) {
+    this.tasks.forEach(task => {
+      if (task.id === taskId) {
+      }
+    });
+  }
+
+  addTask(
+    taskId: string,
+    taskTitle: string,
+    taskNextRefresh: Date,
+    taskCompleted: boolean,
+    taskCompletedBy: string
+  ) {
+    this.tasks.push({
+      id: taskId,
+      title: taskTitle,
+      nextRefresh: taskNextRefresh,
+      completed: taskCompleted,
+      completedBy: taskCompletedBy
+    });
   }
 }
