@@ -8,14 +8,18 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { CreateTaskPageModule } from './pages/create-task/create-task.module';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  exports: [],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
+  CreateTaskPageModule],
   providers: [
     StatusBar,
     SplashScreen,
+
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

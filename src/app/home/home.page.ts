@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
+import { TasksService } from '../tasks/tasks.service';
+import { Task } from '../models/task-model';
+import { ModalController } from '@ionic/angular';
+import { CreateTaskPage } from '../pages/create-task/create-task.page';
 
 @Component({
   selector: 'app-home',
@@ -6,7 +10,25 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  today: Date = new Date();
+  tasks: Task[];
 
-  constructor() {}
+  constructor(
+    private taskService: TasksService,
+    public modalCtrl: ModalController) {}
 
+  ngOnInit() {
+    this.tasks = this.taskService.getAllTasks();
+  }
+  getDayName(date: Date): string{
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days[date.getDay()];
+  }
+
+  async showTaskCreator(){
+    const modal = await this.modalCtrl.create({
+      component: CreateTaskPage
+    });
+    return await modal.present();
+  }
 }
