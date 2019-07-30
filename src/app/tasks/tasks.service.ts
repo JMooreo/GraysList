@@ -5,24 +5,7 @@ import { Task } from '../models/task-model';
   providedIn: 'root'
 })
 export class TasksService {
-  private tasks: Task[] = [
-    {
-      id: 't1',
-      title: 'Feed Bailey',
-      refreshInterval: 1,
-      nextRefresh: new Date('2019-07-18'),
-      completed: false,
-      completedBy: null
-    },
-    {
-      id: 't2',
-      title: 'a very long name that could just keep going and going',
-      refreshInterval: 1,
-      nextRefresh: new Date('2019-07-18'),
-      completed: true,
-      completedBy: 'Joe'
-    }
-  ];
+  private tasks: Task[] = [];
 
   constructor() {}
 
@@ -41,11 +24,11 @@ export class TasksService {
     this.tasks = newTasks;
   }
 
-  updateTask(id, newTitle, newInterval, newRefreshDate) {
+  updateTask(id: string, newTitle: string, newRefreshInterval: number, newRefreshDate: Date) {
     const newTasks = [];
     this.tasks.forEach(task => {
       if (task.id === id) {
-        task = {...task, title: newTitle, refreshInterval: newInterval, nextRefresh: newRefreshDate};
+        task = {...task, title: newTitle, refreshInterval: newRefreshInterval, refreshDate: newRefreshDate};
       }
       newTasks.push(task);
     });
@@ -66,7 +49,7 @@ export class TasksService {
     taskId: string,
     taskTitle: string,
     taskRefreshInterval: number,
-    taskNextRefresh: Date,
+    taskrefreshDate: Date,
     taskCompleted: boolean,
     taskCompletedBy: string
   ) {
@@ -74,7 +57,7 @@ export class TasksService {
       id: taskId,
       title: taskTitle,
       refreshInterval: taskRefreshInterval,
-      nextRefresh: taskNextRefresh,
+      refreshDate: taskrefreshDate,
       completed: taskCompleted,
       completedBy: taskCompletedBy
     });

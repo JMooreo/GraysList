@@ -10,7 +10,7 @@ import { TasksService } from 'src/app/tasks/tasks.service';
 export class CreateTaskPage implements OnInit {
   id: string;
   title: string;
-  date: Date;
+  repeatDay: number;
   time: Date;
   interval: number;
   editModeEnabled: boolean;
@@ -22,7 +22,23 @@ export class CreateTaskPage implements OnInit {
     public AlertCtrl: AlertController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(
+      'id:',
+      this.id,
+      'title:',
+      this.title,
+      'time:',
+      this.time,
+      'interval:',
+      this.interval,
+      'editmode:',
+      this.editModeEnabled,
+      'titleText:',
+      this.titleText,
+      this.repeatDay
+    );
+  }
 
   closeModal(): void {
     this.ModalCtrl.dismiss();
@@ -32,31 +48,59 @@ export class CreateTaskPage implements OnInit {
     return this.TaskService.createId();
   }
 
-  getRefreshDate(date, time, repeatInterval): Date {
-    if (repeatInterval === 7 && date != null) {
-      const dateTime =
-        time == null
-          ? new Date(date.substring(0, 10) + 'T00:00:00')
-          : new Date(date.substring(0, 10) + time.substring(10));
-
-      return this.addDaysToDate(repeatInterval, dateTime);
-    } else {
-      return null;
+  getNextDateByDayNumber(date: Date, desiredDay: number): Date {
+    let daysToAdd = 0;
+    while (this.addDaysToDate(daysToAdd, date).getDay() !== desiredDay && daysToAdd < 7) {
+      daysToAdd += 1;
     }
+    return this.addDaysToDate(daysToAdd, date);
+  }
+
+  createRefreshDate(time: Date, repeatInterval: number = 0, repeatDay: number): Date {
+    let dateTime = new Date(Date.now());
+    const timeCast = new Date(time);
+
+    if (repeatInterval === 7) {
+      dateTime = this.getNextDateByDayNumber(dateTime, repeatDay);
+    } else {
+      dateTime = this.addDaysToDate(repeatInterval, dateTime);
+    }
+
+    if (time != null) {
+      dateTime.setHours(timeCast.getHours());
+      dateTime.setMinutes(timeCast.getMinutes());
+    } else {
+      dateTime.setHours(0);
+      dateTime.setMinutes(0);
+    }
+    return dateTime;
   }
 
   addDaysToDate(days: number, date: Date): Date {
-    return new Date(date.setTime(date.getTime() + 86400000 * days));
+    const tempDate = new Date(Date.now());
+    return new Date(tempDate.setTime(date.getTime() + 86400000 * days));
   }
 
-  addTask(id, title, interval, refreshDate): void {
+  addTask(id: string, title: string, interval: number, refreshDate: Date): void {
     if (this.isValidTask(id, title, interval, refreshDate)) {
       this.TaskService.addTask(id, title, interval, refreshDate, false, null);
       this.closeModal();
     }
   }
 
-  isValidTask(id, title, interval, refreshDate): boolean {
+  updateTask(id: string, title: string, interval: number, refreshDate: Date) {
+    if (this.isValidTask(id, title, interval, refreshDate)) {
+      this.TaskService.updateTask(id, title, interval, refreshDate);
+      this.closeModal();
+      console.log('UPDATED TASK:', title);
+      console.log('id:', id);
+      console.log('title:', title);
+      console.log('interval:', interval);
+      console.log('refreshDate:', refreshDate);
+    }
+  }
+
+  isValidTask(id: string, title: string, interval: number, refreshDate: Date): boolean {
     if (id != null) {
       id = this.createId();
     }
@@ -67,7 +111,7 @@ export class CreateTaskPage implements OnInit {
     if (interval == null) {
       interval = 0;
     }
-    if (interval === 7 && refreshDate == null) {
+    if (interval !== 0 && refreshDate == null) {
       this.presentAlert('Please choose a day');
       return;
     }
@@ -76,16 +120,9 @@ export class CreateTaskPage implements OnInit {
 
   clearAll(): void {
     this.title = null;
-    this.date = null;
+    this.repeatDay = null;
     this.time = null;
     this.interval = null;
-  }
-
-  updateTask(id, title, interval, refreshDate) {
-    if (this.isValidTask(id, title, interval, refreshDate)) {
-      this.TaskService.updateTask(id, title, interval, refreshDate);
-      this.closeModal();
-    }
   }
 
   async presentAlert(myMessage) {
