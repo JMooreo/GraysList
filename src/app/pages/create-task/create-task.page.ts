@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { TasksService } from 'src/app/tasks/tasks.service';
 
@@ -102,7 +102,7 @@ export class CreateTaskPage {
     this.title = null;
     this.repeatDay = null;
     this.time = null;
-    this.interval = null;
+    this.interval = 0;
   }
 
   async presentAlert(myMessage) {

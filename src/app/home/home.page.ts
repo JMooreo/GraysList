@@ -25,6 +25,15 @@ export class HomePage implements OnInit {
     this.tasks = this.taskService.getAllTasks();
   }
 
+  doRefresh(event) {
+    console.log('Begin refresh');
+    setTimeout(() => {
+      console.log('refresh ended');
+      event.target.complete();
+    }, 1000);
+    this.tasks = this.taskService.getAllTasks();
+  }
+
   getDayName(date: Date): string {
     const days = [
       'Sunday',
@@ -101,7 +110,7 @@ export class HomePage implements OnInit {
   getRefreshInfo(task: Task): string {
     let refreshInfo = '';
     if (task.refreshDate != null && task.refreshInterval !== 0) {
-      refreshInfo += 'refreshes ';
+      refreshInfo += 'renews ';
       if (this.getDayName(this.today) === this.getDayName(task.refreshDate)) {
         refreshInfo += 'next ';
       }
@@ -111,7 +120,7 @@ export class HomePage implements OnInit {
     return refreshInfo;
   }
 
-  async deleteTask(task) {
+  async deleteTask(task: Task) {
     const alert = await this.AlertCtrl.create({
       header: 'Confirm',
       subHeader: 'Are you sure you want to delete',
@@ -138,8 +147,8 @@ export class HomePage implements OnInit {
     await alert.present();
   }
 
-  toggleCompleted(id: string) {
-    this.taskService.toggleCompleted(id, this.userName);
+  toggleCompleted(task: Task) {
+    this.taskService.toggleCompleted(task.id, this.userName);
     this.tasks = this.taskService.getAllTasks();
   }
 }
