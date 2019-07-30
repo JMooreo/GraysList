@@ -44,11 +44,9 @@ export class HomePage implements OnInit {
       componentProps: {
         id: task != null ? task.id : null,
         title: task != null ? task.title : null,
-          interval: task !=  null ? task.refreshInterval : 0,
-        repeatDay:
-          task != null ? task.refreshDate.getDay() : null,
-        time:
-          task != null ? new Date(task.refreshDate).toISOString() : null,
+        interval: task != null ? task.refreshInterval : 0,
+        repeatDay: task != null ? task.refreshDate.getDay() : null,
+        time: task != null ? new Date(task.refreshDate).toISOString() : null,
         titleText: task == null ? 'Add a New Task' : 'Edit Task',
         editModeEnabled: task != null ? true : false
       }
@@ -73,18 +71,18 @@ export class HomePage implements OnInit {
       if (date.getMinutes().toString().length === 1) {
         prettyDateString += '0';
         prettyDateString += date.getMinutes();
-        } else {
-          prettyDateString += date.getMinutes();
-        }
+      } else {
+        prettyDateString += date.getMinutes();
+      }
       prettyDateString += ' am';
     } else if (date.getHours() === 12) {
       prettyDateString += ', 12:';
       if (date.getMinutes().toString().length === 1) {
         prettyDateString += '0';
         prettyDateString += date.getMinutes();
-        } else {
-          prettyDateString += date.getMinutes();
-        }
+      } else {
+        prettyDateString += date.getMinutes();
+      }
       prettyDateString += ' pm';
     } else {
       prettyDateString += ', ' + (date.getHours() - 12) + ':';
@@ -140,7 +138,7 @@ export class HomePage implements OnInit {
     await alert.present();
   }
 
-    toggleCompleted(id: string) {
+  toggleCompleted(id: string) {
     this.taskService.toggleCompleted(id, this.userName);
     this.tasks = this.taskService.getAllTasks();
   }

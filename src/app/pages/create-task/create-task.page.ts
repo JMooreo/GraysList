@@ -7,7 +7,7 @@ import { TasksService } from 'src/app/tasks/tasks.service';
   templateUrl: './create-task.page.html',
   styleUrls: ['./create-task.page.scss']
 })
-export class CreateTaskPage implements OnInit {
+export class CreateTaskPage {
   id: string;
   title: string;
   repeatDay: number;
@@ -22,24 +22,6 @@ export class CreateTaskPage implements OnInit {
     public AlertCtrl: AlertController
   ) {}
 
-  ngOnInit() {
-    console.log(
-      'id:',
-      this.id,
-      'title:',
-      this.title,
-      'time:',
-      this.time,
-      'interval:',
-      this.interval,
-      'editmode:',
-      this.editModeEnabled,
-      'titleText:',
-      this.titleText,
-      this.repeatDay
-    );
-  }
-
   closeModal(): void {
     this.ModalCtrl.dismiss();
   }
@@ -50,7 +32,10 @@ export class CreateTaskPage implements OnInit {
 
   getNextDateByDayNumber(date: Date, desiredDay: number): Date {
     let daysToAdd = 0;
-    while (this.addDaysToDate(daysToAdd, date).getDay() !== desiredDay && daysToAdd < 7) {
+    while (
+      this.addDaysToDate(daysToAdd, date).getDay() !== desiredDay &&
+      daysToAdd < 7
+    ) {
       daysToAdd += 1;
     }
     return this.addDaysToDate(daysToAdd, date);
@@ -92,11 +77,6 @@ export class CreateTaskPage implements OnInit {
     if (this.isValidTask(id, title, interval, refreshDate)) {
       this.TaskService.updateTask(id, title, interval, refreshDate);
       this.closeModal();
-      console.log('UPDATED TASK:', title);
-      console.log('id:', id);
-      console.log('title:', title);
-      console.log('interval:', interval);
-      console.log('refreshDate:', refreshDate);
     }
   }
 
