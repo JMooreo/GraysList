@@ -8,10 +8,13 @@ import { TasksService } from 'src/app/tasks/tasks.service';
   styleUrls: ['./create-task.page.scss']
 })
 export class CreateTaskPage implements OnInit {
+  id: string;
   title: string;
-  date: any;
-  time: any;
-  interval: any;
+  date: Date;
+  time: Date;
+  interval: number;
+  editModeEnabled: boolean;
+  titleText: string;
 
   constructor(
     private ModalCtrl: ModalController,
@@ -30,7 +33,7 @@ export class CreateTaskPage implements OnInit {
   }
 
   getRefreshDate(date, time, repeatInterval): Date {
-    if (repeatInterval != null && repeatInterval !== 0 && date != null) {
+    if (repeatInterval === 7 && date != null) {
       const dateTime =
         time == null
           ? new Date(date.substring(0, 10) + 'T00:00:00')
@@ -47,6 +50,13 @@ export class CreateTaskPage implements OnInit {
   }
 
   addTask(id, title, interval, refreshDate): void {
+    if (this.isValidTask(id, title, interval, refreshDate)) {
+      this.TaskService.addTask(id, title, interval, refreshDate, false, null);
+      this.closeModal();
+    }
+  }
+
+  isValidTask(id, title, interval, refreshDate): boolean {
     if (id != null) {
       id = this.createId();
     }
@@ -57,12 +67,11 @@ export class CreateTaskPage implements OnInit {
     if (interval == null) {
       interval = 0;
     }
-    if (interval !== 0 && refreshDate == null) {
-      this.presentAlert('Please choose a start date');
+    if (interval === 7 && refreshDate == null) {
+      this.presentAlert('Please choose a day');
       return;
     }
-    this.TaskService.addTask(id, title, interval, refreshDate, false, null);
-    this.closeModal();
+    return true;
   }
 
   clearAll(): void {
@@ -70,6 +79,13 @@ export class CreateTaskPage implements OnInit {
     this.date = null;
     this.time = null;
     this.interval = null;
+  }
+
+  updateTask(id, title, interval, refreshDate) {
+    if (this.isValidTask(id, title, interval, refreshDate)) {
+      this.TaskService.updateTask(id, title, interval, refreshDate);
+      this.closeModal();
+    }
   }
 
   async presentAlert(myMessage) {

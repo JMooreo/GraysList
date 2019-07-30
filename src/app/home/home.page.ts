@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TasksService } from '../tasks/tasks.service';
 import { Task } from '../models/task-model';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { CreateTaskPage } from '../pages/create-task/create-task.page';
 
 @Component({
@@ -12,13 +12,16 @@ import { CreateTaskPage } from '../pages/create-task/create-task.page';
 export class HomePage {
   today: Date = new Date();
   tasks: Task[];
+  userName: string;
 
   constructor(
     private taskService: TasksService,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public AlertCtrl: AlertController
   ) {}
 
   ngOnInit() {
+    this.userName = 'Justin'; // will get from user service
     this.tasks = this.taskService.getAllTasks();
   }
 
@@ -35,26 +38,59 @@ export class HomePage {
     return days[date.getDay()];
   }
 
-  async showTaskCreator() {
+  async showTaskCreator(task) {
     const modal = await this.modalCtrl.create({
-      component: CreateTaskPage
+      component: CreateTaskPage,
+      componentProps: {
+        id: task != null ? task.id : null,
+        title: task != null ? task.title : null,
+        date:
+          task != null
+            ? task.refreshDate != null
+              ? task.refreshDate.substring(0, 10)
+              : null
+            : null,
+        interval:
+          task != null
+            ? task.refreshDate != null
+              ? task.refreshDate.substring(10)
+              : null
+            : null,
+        titleText: task == null ? 'Add a New Task' : 'Edit Task',
+        editModeEnabled: task != null ? true : false
+      }
     });
     return await modal.present();
   }
 
-  updateTask(id: string) {
-    this.taskService.updateTask(id);
-    this.tasks = this.taskService.getAllTasks();
+  async deleteTask(task) {
+    const alert = await this.AlertCtrl.create({
+      header: 'Confirm',
+      subHeader: 'Are you sure you want to delete',
+      message: task.title,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('didn\'t delete' + task.title);
+          }
+        }, {
+          text: 'Delete',
+          handler: () => {
+            this.taskService.deleteTask(task.id);
+            this.tasks = this.taskService.getAllTasks();
+          }
+        }
+      ]
+    });
 
+    await alert.present();
   }
-  deleteTask(id: string) {
-    this.taskService.deleteTask(id);
-    this.tasks = this.taskService.getAllTasks();
 
-  }
   toggleCompleted(id: string) {
-    this.taskService.toggleCompleted(id);
+    this.taskService.toggleCompleted(id, this.userName);
     this.tasks = this.taskService.getAllTasks();
-
   }
 }

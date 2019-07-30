@@ -16,12 +16,12 @@
             <h4 no-padding (click)="toggleCompleted(task.id)">{{ task.title }} </h4>
           </ion-col>
           <ion-col size="2" no-padding align-self-center>
-            <ion-button *ngIf="!task.completed" ion-button color="warning" expand="block" (click)="updateTask(task.id)">
+            <ion-button *ngIf="!task.completed" ion-button color="warning" expand="block" (click)="showTaskCreator(task)">
               <ion-icon name="create"></ion-icon>
             </ion-button>
           </ion-col>
           <ion-col size="2" no-padding align-self-center>
-            <ion-button ion-button color="danger" expand="block" (click)="deleteTask(task.id)">
+            <ion-button ion-button color="danger" expand="block" (click)="deleteTask(task)">
               <ion-icon name="trash"></ion-icon>
             </ion-button>
           </ion-col>

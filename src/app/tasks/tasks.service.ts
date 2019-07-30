@@ -30,22 +30,29 @@ export class TasksService {
     return this.tasks;
   }
 
-  toggleCompleted(id: string) {
-    // this.tasks = array of tasks where element of one has been changed
+  toggleCompleted(id: string, userName: string) {
     const newTasks = [];
     this.tasks.forEach(task => {
       if (task.id === id) {
-        task = { ...task, completed: !task.completed };
+        task = {...task, completed: !task.completed, completedBy: userName};
       }
       newTasks.push(task);
     });
     this.tasks = newTasks;
   }
 
-  updateTask(id: string) {}
+  updateTask(id, newTitle, newInterval, newRefreshDate) {
+    const newTasks = [];
+    this.tasks.forEach(task => {
+      if (task.id === id) {
+        task = {...task, title: newTitle, refreshInterval: newInterval, nextRefresh: newRefreshDate};
+      }
+      newTasks.push(task);
+    });
+    this.tasks = newTasks;
+  }
 
   deleteTask(id: string) {
-    // this.tasks = array of tasks where task at id is not included
     const newTasks = [];
     this.tasks.forEach(task => {
       if (task.id !== id) {
