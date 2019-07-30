@@ -16,48 +16,55 @@
         <ion-card-title>Add a New Task</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <ion-item>
-          <ion-label position="floating">Description</ion-label>
-          <ion-input type="text"></ion-input>
-        </ion-item>
-        <ion-radio-group>
+        <form (ngSubmit)="addTask(createId(), title, interval, getRefreshDate(date, time, interval))">
+          <ion-item>
+            <ion-label position="floating">Description</ion-label>
+            <ion-input name="title" [(ngModel)]="title" type="text"></ion-input>
+          </ion-item>
+          <ion-radio-group name="interval" [(ngModel)]="interval">
+            <ion-list-header>
+              <ion-label>Repeats</ion-label>
+            </ion-list-header>
+            <ion-item>
+              <ion-label>Never</ion-label>
+              <ion-radio checked="true" slot="start" value="0"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Daily</ion-label>
+              <ion-radio slot="start" value="1"></ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-label>Weekly</ion-label>
+              <ion-radio slot="start" value="7"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
           <ion-list-header>
-            <ion-label>Repeats</ion-label>
+            <ion-label>Starting on</ion-label>
           </ion-list-header>
           <ion-item>
-            <ion-label>Never</ion-label>
-            <ion-radio id="repeat-never" checked="true" slot="start" value="never"></ion-radio>
+            <ion-datetime placeholder="Date" name="date" [(ngModel)]="date" displayFormat="MMM DD, YYYY"></ion-datetime>
           </ion-item>
           <ion-item>
-            <ion-label>Daily</ion-label>
-            <ion-radio slot="start" value="daily"></ion-radio>
+            <ion-datetime placeholder="Time" name="date" [(ngModel)]="time" displayFormat="h:mm a"></ion-datetime>
           </ion-item>
-          <ion-item>
-            <ion-label>Weekly</ion-label>
-            <ion-radio slot="start" value="weekly"></ion-radio>
-          </ion-item>
-        </ion-radio-group>
-        <ion-list-header>
-          <ion-label>At</ion-label>
-        </ion-list-header>
-        <ion-item>
-          <ion-datetime placeholder="Time" displayFormat="h:mm a"></ion-datetime>
-        </ion-item>
-        <ion-grid>
-          <ion-row>
-            <ion-col size="8">
-              <ion-button expand="block" mode="ios" type="submit">Add Task</ion-button>
-            </ion-col>
-            <ion-col size="4">
-              <ion-button expand="block" color="danger" fill="outline" mode="ios" type="submit">Clear</ion-button>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <ion-list id="task-list"></ion-list>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="8">
+                <ion-button expand="block" mode="ios" type="submit">
+                  Add Task
+                </ion-button>
+              </ion-col>
+              <ion-col size="4">
+                <ion-button expand="block" color="danger" fill="outline" mode="ios" (click)="clearAll()">Clear</ion-button>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-list id="task-list"></ion-list>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </form>
       </ion-card-content>
     </ion-card>
   </div>
