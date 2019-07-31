@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TasksService } from '../tasks/tasks.service';
 import { Task } from '../models/task-model';
-import { ModalController, AlertController, ToastController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { CreateTaskPage } from '../pages/create-task/create-task.page';
 
 @Component({
