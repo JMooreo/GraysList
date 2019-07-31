@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TasksService } from '../tasks/tasks.service';
 import { Task } from '../models/task-model';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, ToastController } from '@ionic/angular';
 import { CreateTaskPage } from '../pages/create-task/create-task.page';
 
 @Component({
@@ -15,14 +15,14 @@ export class HomePage implements OnInit {
   userName: string;
 
   constructor(
-    private taskService: TasksService,
-    public modalCtrl: ModalController,
-    public AlertCtrl: AlertController
+    private TaskService: TasksService,
+    public ModalCtrl: ModalController,
+    public AlertCtrl: AlertController,
   ) {}
 
   ngOnInit() {
     this.userName = 'Justin'; // will get from user service
-    this.tasks = this.taskService.getAllTasks();
+    this.tasks = this.TaskService.getAllTasks();
   }
 
   doRefresh(event) {
@@ -31,7 +31,7 @@ export class HomePage implements OnInit {
       console.log('refresh ended');
       event.target.complete();
     }, 1000);
-    this.tasks = this.taskService.getAllTasks();
+    this.tasks = this.TaskService.getAllTasks();
   }
 
   getDayName(date: Date): string {
@@ -48,7 +48,7 @@ export class HomePage implements OnInit {
   }
 
   async showTaskCreator(task: Task) {
-    const modal = await this.modalCtrl.create({
+    const modal = await this.ModalCtrl.create({
       component: CreateTaskPage,
       componentProps: {
         id: task != null ? task.id : null,
@@ -137,8 +137,8 @@ export class HomePage implements OnInit {
         {
           text: 'Delete',
           handler: () => {
-            this.taskService.deleteTask(task.id);
-            this.tasks = this.taskService.getAllTasks();
+            this.TaskService.deleteTask(task.id);
+            this.tasks = this.TaskService.getAllTasks();
           }
         }
       ]
@@ -148,7 +148,7 @@ export class HomePage implements OnInit {
   }
 
   toggleCompleted(task: Task) {
-    this.taskService.toggleCompleted(task.id, this.userName);
-    this.tasks = this.taskService.getAllTasks();
+    this.TaskService.toggleCompleted(task.id, this.userName);
+    this.tasks = this.TaskService.getAllTasks();
   }
 }

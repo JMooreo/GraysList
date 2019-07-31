@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, ToastController } from '@ionic/angular';
 import { TasksService } from 'src/app/tasks/tasks.service';
 
 @Component({
@@ -19,7 +19,8 @@ export class CreateTaskPage {
   constructor(
     private ModalCtrl: ModalController,
     public TaskService: TasksService,
-    public AlertCtrl: AlertController
+    public AlertCtrl: AlertController,
+    public ToastCtrl: ToastController
   ) {}
 
   closeModal(): void {
@@ -66,6 +67,14 @@ export class CreateTaskPage {
     return new Date(tempDate.setTime(date.getTime() + 86400000 * days));
   }
 
+  async presentUpdateConfirmation() {
+    const toast = await this.ToastCtrl.create({
+      message: 'Task Updated. Pull down to refresh',
+      duration: 3000
+    });
+    toast.present();
+  }
+
   addTask(id: string, title: string, interval: number, refreshDate: Date): void {
     if (this.isValidTask(id, title, interval, refreshDate)) {
       this.TaskService.addTask(id, title, interval, refreshDate, false, null);
@@ -77,6 +86,7 @@ export class CreateTaskPage {
     if (this.isValidTask(id, title, interval, refreshDate)) {
       this.TaskService.updateTask(id, title, interval, refreshDate);
       this.closeModal();
+      this.presentUpdateConfirmation();
     }
   }
 
