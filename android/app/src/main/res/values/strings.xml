@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">GraysList</string>
     <string name="title_activity_main">GraysList</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="fileprovider_authority">io.ionic.starter.fileprovider</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="package_name">com.MooreLabs.GraysList</string>
+    <string name="fileprovider_authority">com.MooreLabs.GraysList.fileprovider</string>
+    <string name="custom_url_scheme">com.MooreLabs.GraysList</string>
 </resources>

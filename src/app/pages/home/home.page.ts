@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { TasksService } from '../tasks/tasks.service';
-import { Task } from '../models/task-model';
+import { TasksService } from '../../services/tasks/tasks.service';
+import { Task } from '../../models/task-model';
 import { ModalController, AlertController } from '@ionic/angular';
-import { CreateTaskPage } from '../pages/create-task/create-task.page';
+import { CreateTaskPage } from '../create-task/create-task.page';
 
 @Component({
   selector: 'app-home',
