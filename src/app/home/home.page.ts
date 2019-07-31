@@ -67,14 +67,7 @@ export class HomePage implements OnInit {
     let prettyDateString = this.getDayName(date);
 
     if (date.getHours() === 0) {
-      prettyDateString += ', 12:';
-      if (date.getMinutes().toString().length === 1) {
-        prettyDateString += '0';
-        prettyDateString += date.getMinutes();
-      } else {
-        prettyDateString += date.getMinutes();
-      }
-      prettyDateString += ' am';
+      // display nothing (default time)
     } else if (date.getHours() < 12) {
       prettyDateString += ', ' + date.getHours() + ':';
       if (date.getMinutes().toString().length === 1) {
