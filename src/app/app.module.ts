@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -11,8 +10,14 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CreateTaskPageModule } from './pages/create-task/create-task.module';
-import { environment } from 'src/environments/environment';
 import { TasksService } from './services/tasks/tasks.service';
+
+// currently there is a bug while building the app with --prod
+// - https://github.com/RaphaelJenni/FirebaseUI-Angular/issues/76
+// the plugin exposes the two libraries as well. You can use those:
+
+import {AngularFireModule} from '@angular/fire';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,15 +28,7 @@ import { TasksService } from './services/tasks/tasks.service';
     IonicModule.forRoot(),
     AppRoutingModule,
     CreateTaskPageModule,
-    AngularFireModule.initializeApp({
-      apiKey: 'AIzaSyB5oZ24rtCaxzQ0Rn-qMlqxRsHc7zN2eV8',
-      authDomain: 'grayslist-4a7c7.firebaseapp.com',
-      databaseURL: 'https://grayslist-4a7c7.firebaseio.com',
-      projectId: 'grayslist-4a7c7',
-      storageBucket: 'grayslist-4a7c7.appspot.com',
-      messagingSenderId: '384825461497',
-      appId: '1:384825461497:web:41b683e39c8c4482'
-    }),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule
   ],
   providers: [
