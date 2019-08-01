@@ -9,23 +9,24 @@ export class TasksService {
 
   constructor(private firestore: AngularFirestore) {}
 
-  getAllTasks() {
+ getAllTasks() {
     return this.firestore.collection('tasks').snapshotChanges();
-  }
-
-  toggleCompleted(id: string, userName: string) {
-
-  }
-
-  updateTask(task: Task) {
-
-  }
-
-  deleteTask(task: Task) {
-
   }
 
   addTask(task: Task) {
     this.firestore.collection('tasks').add(task);
+  }
+
+  updateTask(task: Task) {
+    this.firestore.doc('tasks/' + task.id).update(task);
+  }
+
+  deleteTask(task: Task) {
+    this.firestore.doc('tasks/' + task.id).delete();
+  }
+
+  toggleCompleted(task: Task) {
+    const newTask = {...task, completed: !task.completed, completedBy: 'Justin' }; // Get Name from User Service
+    this.firestore.doc('tasks/' + task.id).update(newTask);
   }
 }

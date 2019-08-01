@@ -25,20 +25,22 @@ export class HomePage implements OnInit {
     this.subscribeToTasks();
   }
 
-  async ionRefresher(event) {
-    await this.subscribeToTasks();
-    event.target.complete();
-  }
-
   subscribeToTasks() {
     this.TaskService.getAllTasks().subscribe(res => {
-      this.tasks = res.map(item => {
+      const tasks = res.map(item => {
         return {
+          ...item.payload.doc.data(),
           id: item.payload.doc.id,
-          ...item.payload.doc.data()
         } as Task;
       });
+      this.tasks = tasks;
+      console.log(this.tasks);
     });
+  }
+
+  async ionRefresher(event) {
+    await this.TaskService.getAllTasks();
+    event.target.complete();
   }
 
   getDayName(date: Date): string {
@@ -58,10 +60,15 @@ export class HomePage implements OnInit {
     const modal = await this.ModalCtrl.create({
       component: CreateTaskPage,
       componentProps: {
+        id: task != null ? task.id : null,
         title: task != null ? task.title : null,
         interval: task != null ? task.refreshInterval : 0,
-        repeatDay: task != null ? task.refreshDate.getDay() : null,
-        time: task != null ? new Date(task.refreshDate).toISOString() : null,
+        repeatDay: task != null
+          ? task.refreshDate != null
+            ? new Date(task.refreshDate).getDay()
+            : null
+          : null,
+        time: task != null ? task.refreshDate : null,
         titleText: task == null ? 'Add a New Task' : 'Edit Task',
         editModeEnabled: task != null ? true : false
       }
@@ -110,10 +117,10 @@ export class HomePage implements OnInit {
     let refreshInfo = '';
     if (task.refreshDate != null && task.refreshInterval !== 0) {
       refreshInfo += 'renews ';
-      if (this.getDayName(this.today) === this.getDayName(task.refreshDate)) {
+      if (this.getDayName(this.today) === this.getDayName(new Date(task.refreshDate))) {
         refreshInfo += 'next ';
       }
-      refreshInfo += this.getPrettyDateString(task.refreshDate);
+      refreshInfo += this.getPrettyDateString(new Date(task.refreshDate));
     }
 
     return refreshInfo;
@@ -147,7 +154,6 @@ export class HomePage implements OnInit {
   }
 
   toggleCompleted(task: Task) {
-    // this.TaskService.toggleCompleted(task.id, this.userName);
-    // this.tasks = this.TaskService.getAllTasks();
+     this.TaskService.toggleCompleted(task);
   }
 }

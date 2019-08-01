@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController, ToastController } from '@ionic/angular';
 import { TasksService } from 'src/app/services/tasks/tasks.service';
 import { Task } from '../../models/task-model';
@@ -12,7 +12,7 @@ export class CreateTaskPage {
   id: string;
   title: string;
   repeatDay: number;
-  time: Date;
+  time: string;
   interval: number;
   editModeEnabled: boolean;
   titleText: string;
@@ -40,7 +40,7 @@ export class CreateTaskPage {
     return this.addDaysToDate(daysToAdd, date);
   }
 
-  createRefreshDate(time: Date, repeatInterval: number = 0, repeatDay: number): Date {
+  createRefreshDate(time: string, repeatInterval: number = 0, repeatDay: number): Date {
     let dateTime = new Date(Date.now());
     const timeCast = new Date(time);
 
@@ -75,9 +75,10 @@ export class CreateTaskPage {
 
   addTask(taskId: string, taskTitle: string, taskInterval: number, taskRefreshDate: Date): void {
     const task: Task = {
+      id: taskId,
       title: taskTitle,
       refreshInterval: taskInterval != null ? taskInterval : 0,
-      refreshDate: taskRefreshDate,
+      refreshDate: taskRefreshDate.toISOString(),
       completed: false,
       completedBy: ''
     };
@@ -90,9 +91,10 @@ export class CreateTaskPage {
 
   updateTask(taskId: string, taskTitle: string, taskInterval: number, taskRefreshDate: Date) {
     const task: Task = {
+      id: taskId,
       title: taskTitle,
       refreshInterval: taskInterval != null ? taskInterval : 0,
-      refreshDate: taskRefreshDate,
+      refreshDate: taskRefreshDate.toISOString(),
       completed: false,
       completedBy: ''
     };
