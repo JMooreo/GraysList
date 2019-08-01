@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ModalController, AlertController, ToastController } from '@ionic/angular';
 import { TasksService } from 'src/app/services/tasks/tasks.service';
+import { Task } from '../../models/task-model';
 
 @Component({
   selector: 'app-create-task',
@@ -15,6 +16,7 @@ export class CreateTaskPage {
   interval: number;
   editModeEnabled: boolean;
   titleText: string;
+  task: Task;
 
   constructor(
     private ModalCtrl: ModalController,
@@ -25,10 +27,6 @@ export class CreateTaskPage {
 
   closeModal(): void {
     this.ModalCtrl.dismiss();
-  }
-
-  createId(): string {
-    return this.TaskService.createId();
   }
 
   getNextDateByDayNumber(date: Date, desiredDay: number): Date {
@@ -75,35 +73,44 @@ export class CreateTaskPage {
     toast.present();
   }
 
-  addTask(id: string, title: string, interval: number, refreshDate: Date): void {
-    if (this.isValidTask(id, title, interval, refreshDate)) {
-      this.TaskService.addTask(id, title, interval, refreshDate, false, null);
+  addTask(taskId: string, taskTitle: string, taskInterval: number, taskRefreshDate: Date): void {
+    const task: Task = {
+      title: taskTitle,
+      refreshInterval: taskInterval != null ? taskInterval : 0,
+      refreshDate: taskRefreshDate,
+      completed: false,
+      completedBy: ''
+    };
+
+    if (this.isValidTask(task)) {
+      this.TaskService.addTask(task);
       this.closeModal();
     }
   }
 
-  updateTask(id: string, title: string, interval: number, refreshDate: Date) {
-    if (this.isValidTask(id, title, interval, refreshDate)) {
-      this.TaskService.updateTask(id, title, interval, refreshDate);
+  updateTask(taskId: string, taskTitle: string, taskInterval: number, taskRefreshDate: Date) {
+    const task: Task = {
+      title: taskTitle,
+      refreshInterval: taskInterval != null ? taskInterval : 0,
+      refreshDate: taskRefreshDate,
+      completed: false,
+      completedBy: ''
+    };
+
+    if (this.isValidTask(task)) {
+      this.TaskService.updateTask(task);
       this.closeModal();
       this.presentUpdateConfirmation();
     }
   }
 
-  isValidTask(id: string, title: string, interval: number, refreshDate: Date): boolean {
-    if (id != null) {
-      id = this.createId();
-    }
-    if (title == null) {
+  isValidTask(task: Task): boolean {
+    if (task.title == null) {
       this.presentAlert('Description cannot be empty');
-      return;
-    }
-    if (interval == null) {
-      interval = 0;
-    }
-    if (interval !== 0 && refreshDate == null) {
+      return false;
+    } else if (task.refreshInterval !== 0 && task.refreshDate == null) {
       this.presentAlert('Please choose a day');
-      return;
+      return false;
     }
     return true;
   }

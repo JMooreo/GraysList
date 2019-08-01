@@ -17,21 +17,28 @@ export class HomePage implements OnInit {
   constructor(
     private TaskService: TasksService,
     public ModalCtrl: ModalController,
-    public AlertCtrl: AlertController,
+    public AlertCtrl: AlertController
   ) {}
 
   ngOnInit() {
     this.userName = 'Justin'; // will get from user service
-    this.tasks = this.TaskService.getAllTasks();
+    this.subscribeToTasks();
   }
 
-  doRefresh(event) {
-    console.log('Begin refresh');
-    setTimeout(() => {
-      console.log('refresh ended');
-      event.target.complete();
-    }, 1000);
-    this.tasks = this.TaskService.getAllTasks();
+  async ionRefresher(event) {
+    await this.subscribeToTasks();
+    event.target.complete();
+  }
+
+  subscribeToTasks() {
+    this.TaskService.getAllTasks().subscribe(res => {
+      this.tasks = res.map(item => {
+        return {
+          id: item.payload.doc.id,
+          ...item.payload.doc.data()
+        } as Task;
+      });
+    });
   }
 
   getDayName(date: Date): string {
@@ -51,7 +58,6 @@ export class HomePage implements OnInit {
     const modal = await this.ModalCtrl.create({
       component: CreateTaskPage,
       componentProps: {
-        id: task != null ? task.id : null,
         title: task != null ? task.title : null,
         interval: task != null ? task.refreshInterval : 0,
         repeatDay: task != null ? task.refreshDate.getDay() : null,
@@ -130,8 +136,8 @@ export class HomePage implements OnInit {
         {
           text: 'Delete',
           handler: () => {
-            this.TaskService.deleteTask(task.id);
-            this.tasks = this.TaskService.getAllTasks();
+            this.TaskService.deleteTask(task);
+            // this.refreshTasks();
           }
         }
       ]
@@ -141,7 +147,7 @@ export class HomePage implements OnInit {
   }
 
   toggleCompleted(task: Task) {
-    this.TaskService.toggleCompleted(task.id, this.userName);
-    this.tasks = this.TaskService.getAllTasks();
+    // this.TaskService.toggleCompleted(task.id, this.userName);
+    // this.tasks = this.TaskService.getAllTasks();
   }
 }

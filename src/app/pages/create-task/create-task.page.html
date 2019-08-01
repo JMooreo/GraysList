@@ -16,7 +16,9 @@
         <ion-card-title>{{ titleText }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <form (ngSubmit)="addTask(createId(), title, interval, createRefreshDate(time, interval, repeatDay))">
+        <form (ngSubmit)="editModeEnabled 
+          ? updateTask(id, title, interval, createRefreshDate(time, interval, repeatDay))
+          : addTask(createId(), title, interval, createRefreshDate(time, interval, repeatDay))">
           <ion-item>
             <ion-label position="floating">Description</ion-label>
             <ion-input name="title" [(ngModel)]="title" type="text"></ion-input>
@@ -38,38 +40,38 @@
               <ion-radio slot="start" [value]=7></ion-radio>
             </ion-item>
           </ion-radio-group>
-          <ion-row>
-            <ion-col no-padding size="5">
-              <ion-list-header *ngIf="interval === 7 || interval == 1">
-                <ion-label>At</ion-label>
-              </ion-list-header>
-              <ion-item *ngIf="interval === 7 || interval === 1">
-                <ion-datetime no-padding style="max-width: 100% !important" placeholder="12:00 am" name="time" [(ngModel)]="time" displayFormat="h:mm a">
-                </ion-datetime>
-              </ion-item>
-            </ion-col>
-            <ion-col no-padding size="7">
-              <ion-list-header *ngIf="interval === 7">
-                <ion-label>On</ion-label>
-              </ion-list-header>
-              <ion-item *ngIf="interval === 7">
-                <ion-select style="max-width: 100% !important" name="repeatDay" [(ngModel)]="repeatDay">
-                  <ion-select-option [value]=0>Sundays</ion-select-option>
-                  <ion-select-option [value]=1>Mondays</ion-select-option>
-                  <ion-select-option [value]=2>Tuesdays</ion-select-option>
-                  <ion-select-option [value]=3>Wednesdays</ion-select-option>
-                  <ion-select-option [value]=4>Thursdays</ion-select-option>
-                  <ion-select-option [value]=5>Fridays</ion-select-option>
-                  <ion-select-option [value]=6>Saturdays</ion-select-option>
-                </ion-select>
-              </ion-item>
-            </ion-col>
-          </ion-row>
           <ion-grid>
             <ion-row>
+              <ion-col no-padding size="5">
+                <ion-list-header *ngIf="interval === 7 || interval == 1">
+                  <ion-label>At</ion-label>
+                </ion-list-header>
+                <ion-item *ngIf="interval === 7 || interval === 1">
+                  <ion-datetime no-padding style="max-width: 100% !important" placeholder="12:00 am" name="time"
+                    [(ngModel)]="time" displayFormat="h:mm a">
+                  </ion-datetime>
+                </ion-item>
+              </ion-col>
+              <ion-col no-padding size="7">
+                <ion-list-header *ngIf="interval === 7">
+                  <ion-label>On</ion-label>
+                </ion-list-header>
+                <ion-item *ngIf="interval === 7">
+                  <ion-select style="max-width: 100% !important" name="repeatDay" [(ngModel)]="repeatDay">
+                    <ion-select-option [value]=0>Sundays</ion-select-option>
+                    <ion-select-option [value]=1>Mondays</ion-select-option>
+                    <ion-select-option [value]=2>Tuesdays</ion-select-option>
+                    <ion-select-option [value]=3>Wednesdays</ion-select-option>
+                    <ion-select-option [value]=4>Thursdays</ion-select-option>
+                    <ion-select-option [value]=5>Fridays</ion-select-option>
+                    <ion-select-option [value]=6>Saturdays</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
               <ion-col size="8">
-                <ion-button *ngIf="editModeEnabled" expand="block" mode="ios"
-                  (click)="updateTask(id, title, interval, createRefreshDate(time, interval, repeatDay))">
+                <ion-button *ngIf="editModeEnabled" expand="block" mode="ios" type="submit">
                   Update
                 </ion-button>
                 <ion-button *ngIf="!editModeEnabled" expand="block" mode="ios" type="submit">
@@ -77,13 +79,9 @@
                 </ion-button>
               </ion-col>
               <ion-col size="4">
-                <ion-button expand="block" color="danger" fill="outline" mode="ios" (click)="clearAll()">Clear
+                <ion-button expand="block" color="danger" fill="outline" mode="ios" (click)="clearAll()">
+                  Clear
                 </ion-button>
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <ion-list id="task-list"></ion-list>
               </ion-col>
             </ion-row>
           </ion-grid>
