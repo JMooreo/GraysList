@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "384825461497",
+    "firebase_url": "https://grayslist-4a7c7.firebaseio.com",
+    "project_id": "grayslist-4a7c7",
+    "storage_bucket": "grayslist-4a7c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:384825461497:android:4a342e8443990970",
+        "android_client_info": {
+          "package_name": "com.MooreLabs.GraysList"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "384825461497-tb7ggciifnc42krgdjlh68j6thd2aqvq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.MooreLabs.GraysList",
+            "certificate_hash": "0bed5732ad643b49db88e8aecc269347d22b3619"
+          }
+        },
+        {
+          "client_id": "384825461497-ijfv04hgbg1kimsfo0g80ldr9jhc3su4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC88okjOnQZu76T-BW2EzxIxq0gBfXzk4E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "384825461497-ijfv04hgbg1kimsfo0g80ldr9jhc3su4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
