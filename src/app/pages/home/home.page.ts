@@ -40,7 +40,9 @@ export class HomePage implements OnInit {
 
   async ionRefresher(event) {
     await this.TaskService.getAllTasks();
-    event.target.complete();
+    setTimeout(() => {
+      event.target.complete();
+    }, 500);
   }
 
   getDayName(date: Date): string {
