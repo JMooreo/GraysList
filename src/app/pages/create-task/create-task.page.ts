@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController, AlertController, ToastController } from '@ionic/angular';
 import { TasksService } from 'src/app/services/tasks/tasks.service';
 import { Task } from '../../models/task-model';

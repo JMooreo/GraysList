@@ -26,7 +26,14 @@ export class TasksService {
   }
 
   toggleCompleted(task: Task) {
-    const newTask = {...task, completed: !task.completed, completedBy: 'Justin' }; // Get Name from User Service
+    let newTask: Task;
+    if (!task.completed) {
+      newTask = {...task, completed: true, completedBy: 'Justin'}; // Get Name from User Service
+    } else { // if (userService.getUserName() == task.completedBy)
+      newTask = {...task, completed: false, completedBy: ''};
+     }
     this.firestore.doc('tasks/' + task.id).update(newTask);
   }
 }
+
+
