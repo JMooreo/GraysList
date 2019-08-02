@@ -18,10 +18,10 @@
       <ion-grid no-padding>
         <ion-row>
           <ion-col size="6" no-padding>
-            <h5 no-padding
+            <h6 no-padding
               [ngStyle]="{'text-decoration': task.completed ? 'line-through' : '', color: task.completed ? 'gray' : 'black'}"
               (click)="toggleCompleted(task)">{{ task.title }}
-            </h5>
+            </h6>
           </ion-col>
           <ion-col size="2" no-padding align-self-center>
             <ion-button *ngIf="!task.completed" ion-button color="success" expand="block"
