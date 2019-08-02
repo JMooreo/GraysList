@@ -1,5 +1,6 @@
 <ion-app>
   <ion-router-outlet *ngIf="afAuth.auth.currentUser"></ion-router-outlet>
+  
   <ion-header *ngIf="!afAuth.auth.currentUser">
     <ion-toolbar color="primary">
       <ion-title>GraysList</ion-title>
