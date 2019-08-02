@@ -34,8 +34,25 @@ export class HomePage implements OnInit {
         } as Task;
       });
       this.tasks = tasks;
-      console.log(this.tasks);
+      this.refreshTasksThatExpired();
     });
+  }
+
+  refreshTasksThatExpired() {
+    this.tasks.forEach(task => {
+      if (new Date(task.refreshDate) < new Date(Date.now()) && task.refreshInterval !== 0) {
+        this.TaskService.updateTask({...task, completed: false, refreshDate: this.createRefreshDate(task)});
+      }
+    });
+  }
+
+  createRefreshDate(task: Task): string {
+    return this.addDaysToDate(task.refreshInterval, new Date(task.refreshDate)).toISOString();
+  }
+
+  addDaysToDate(days: number, date: Date): Date {
+    const tempDate = new Date(Date.now());
+    return new Date(tempDate.setTime(date.getTime() + 86400000 * days));
   }
 
   getDayName(date: Date): string {
