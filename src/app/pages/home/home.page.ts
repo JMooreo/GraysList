@@ -38,13 +38,6 @@ export class HomePage implements OnInit {
     });
   }
 
-  async ionRefresher(event) {
-    await this.TaskService.getAllTasks();
-    setTimeout(() => {
-      event.target.complete();
-    }, 500);
-  }
-
   getDayName(date: Date): string {
     const days = [
       'Sunday',

@@ -78,6 +78,7 @@ export class CreateTaskPage {
       id: taskId,
       title: taskTitle,
       refreshInterval: taskInterval != null ? taskInterval : 0,
+      createdDate: new Date(Date.now()).toISOString(),
       refreshDate: taskRefreshDate.toISOString(),
       completed: false,
       completedBy: ''
@@ -95,6 +96,7 @@ export class CreateTaskPage {
       title: taskTitle,
       refreshInterval: taskInterval != null ? taskInterval : 0,
       refreshDate: taskRefreshDate.toISOString(),
+      createdDate: new Date(Date.now()).toISOString(),
       completed: false,
       completedBy: ''
     };

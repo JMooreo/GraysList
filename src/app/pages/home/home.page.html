@@ -8,11 +8,6 @@
   <ion-text color="primary">
     <h5 margin>{{ getDayName(today) }}, {{ today | date:"MMM dd, yyyy" }}</h5>
   </ion-text>
-  <ion-refresher slot="fixed" (ionRefresh)="ionRefresher($event)">
-    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="crescent"
-      refreshingText="Getting Tasks...">
-    </ion-refresher-content>
-  </ion-refresher>
   <ion-list>
     <ion-item *ngFor="let task of tasks">
       <ion-grid no-padding>

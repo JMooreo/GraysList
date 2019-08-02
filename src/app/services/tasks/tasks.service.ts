@@ -16,7 +16,8 @@ export class TasksService {
     }
 
  getAllTasks() {
-    return this.firestore.collection('tasks').snapshotChanges();
+    return this.firestore.collection('tasks',
+      ref => ref.orderBy('createdDate', 'desc')).snapshotChanges();
   }
 
   addTask(task: Task) {

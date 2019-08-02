@@ -3,6 +3,7 @@ export interface Task {
     title: string;
     refreshInterval: number;
     refreshDate: string;
+    createdDate: string;
     completed: boolean;
     completedBy: string;
 }
