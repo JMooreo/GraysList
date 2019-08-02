@@ -1,4 +1,12 @@
 <ion-app>
   <ion-router-outlet *ngIf="afAuth.auth.currentUser"></ion-router-outlet>
-  <firebase-ui *ngIf="!afAuth.auth.currentUser"></firebase-ui>
+  <ion-header *ngIf="!afAuth.auth.currentUser">
+    <ion-toolbar color="primary">
+      <ion-title>GraysList</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content *ngIf="!afAuth.auth.currentUser">
+    <firebase-ui></firebase-ui>
+  </ion-content>
 </ion-app>
