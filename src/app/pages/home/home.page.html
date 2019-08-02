@@ -17,30 +17,26 @@
     <ion-item *ngFor="let task of tasks">
       <ion-grid no-padding>
         <ion-row>
-          <ion-col size="6" no-padding>
+          <ion-col size="7" no-padding>
             <h6 no-padding
               [ngStyle]="{'text-decoration': task.completed ? 'line-through' : '', color: task.completed ? 'gray' : 'black'}"
               (click)="toggleCompleted(task)">{{ task.title }}
             </h6>
           </ion-col>
-          <ion-col size="2" no-padding align-self-center>
-            <ion-button *ngIf="!task.completed" ion-button color="success" expand="block"
+          <ion-col size="5" no-padding align-self-center text-right>
+            <ion-button *ngIf="!task.completed" ion-button color="success"
               (click)="toggleCompleted(task)">
               <ion-icon large name="checkmark-circle-outline"></ion-icon>
             </ion-button>
-          </ion-col>
-          <ion-col size="2" no-padding align-self-center>
-            <ion-button *ngIf="!task.completed" ion-button color="warning" expand="block"
+            <ion-button *ngIf="!task.completed" ion-button color="warning"
               (click)="showTaskCreator(task)">
               <ion-icon name="create"></ion-icon>
             </ion-button>
-            <ion-button *ngIf="task.completed" ion-button color="warning" expand="block"
+            <ion-button *ngIf="task.completed" ion-button color="warning"
               (click)="toggleCompleted(task)">
               <ion-icon name="undo"></ion-icon>
             </ion-button>
-          </ion-col>
-          <ion-col size="2" no-padding align-self-center>
-            <ion-button ion-button color="danger" expand="block" (click)="deleteTask(task)">
+            <ion-button ion-button color="danger" (click)="deleteTask(task)">
               <ion-icon name="trash"></ion-icon>
             </ion-button>
           </ion-col>
