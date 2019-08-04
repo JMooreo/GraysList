@@ -67,7 +67,7 @@ export class CreateTaskPage {
 
   async presentUpdateConfirmation() {
     const toast = await this.ToastCtrl.create({
-      message: 'Task Updated. Pull down to refresh',
+      message: 'Task Updated',
       duration: 3000
     });
     toast.present();

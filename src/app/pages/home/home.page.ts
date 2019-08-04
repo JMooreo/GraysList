@@ -12,7 +12,6 @@ import { CreateTaskPage } from '../create-task/create-task.page';
 export class HomePage implements OnInit {
   today: Date = new Date(Date.now());
   tasks: Task[];
-  userName: string;
 
   constructor(
     private TaskService: TasksService,
@@ -21,7 +20,6 @@ export class HomePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.userName = 'Justin'; // will get from user service
     this.subscribeToTasks();
   }
 
