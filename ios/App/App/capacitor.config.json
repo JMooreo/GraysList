@@ -1,0 +1,7 @@
+{
+  "appId": "com.MooreLabs.GraysList",
+  "appName": "GraysList",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}
